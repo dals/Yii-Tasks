@@ -1,0 +1,8 @@
+*.swp
+.buildpath
+.project
+.settings
+htdocs/assets/*
+htdocs/protected/runtime/*
+htdocs/protected/data/*.db
+htdocs/protected/tests/report/*
