@@ -1,28 +1,73 @@
-CREATE TABLE tbl_user (
-    id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    username VARCHAR(128) NOT NULL,
-    password VARCHAR(128) NOT NULL,
-    email VARCHAR(128) NOT NULL
-);
+/*
+SQLyog Community Edition- MySQL GUI v8.12 
+MySQL - 5.1.54-1ubuntu4-log : Database - tasksdev
+*********************************************************************
+*/
 
-INSERT INTO tbl_user (username, password, email) VALUES ('test1', 'pass1', 'test1@example.com');
-INSERT INTO tbl_user (username, password, email) VALUES ('test2', 'pass2', 'test2@example.com');
-INSERT INTO tbl_user (username, password, email) VALUES ('test3', 'pass3', 'test3@example.com');
-INSERT INTO tbl_user (username, password, email) VALUES ('test4', 'pass4', 'test4@example.com');
-INSERT INTO tbl_user (username, password, email) VALUES ('test5', 'pass5', 'test5@example.com');
-INSERT INTO tbl_user (username, password, email) VALUES ('test6', 'pass6', 'test6@example.com');
-INSERT INTO tbl_user (username, password, email) VALUES ('test7', 'pass7', 'test7@example.com');
-INSERT INTO tbl_user (username, password, email) VALUES ('test8', 'pass8', 'test8@example.com');
-INSERT INTO tbl_user (username, password, email) VALUES ('test9', 'pass9', 'test9@example.com');
-INSERT INTO tbl_user (username, password, email) VALUES ('test10', 'pass10', 'test10@example.com');
-INSERT INTO tbl_user (username, password, email) VALUES ('test11', 'pass11', 'test11@example.com');
-INSERT INTO tbl_user (username, password, email) VALUES ('test12', 'pass12', 'test12@example.com');
-INSERT INTO tbl_user (username, password, email) VALUES ('test13', 'pass13', 'test13@example.com');
-INSERT INTO tbl_user (username, password, email) VALUES ('test14', 'pass14', 'test14@example.com');
-INSERT INTO tbl_user (username, password, email) VALUES ('test15', 'pass15', 'test15@example.com');
-INSERT INTO tbl_user (username, password, email) VALUES ('test16', 'pass16', 'test16@example.com');
-INSERT INTO tbl_user (username, password, email) VALUES ('test17', 'pass17', 'test17@example.com');
-INSERT INTO tbl_user (username, password, email) VALUES ('test18', 'pass18', 'test18@example.com');
-INSERT INTO tbl_user (username, password, email) VALUES ('test19', 'pass19', 'test19@example.com');
-INSERT INTO tbl_user (username, password, email) VALUES ('test20', 'pass20', 'test20@example.com');
-INSERT INTO tbl_user (username, password, email) VALUES ('test21', 'pass21', 'test21@example.com');
+/*!40101 SET NAMES utf8 */;
+
+/*!40101 SET SQL_MODE=''*/;
+
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+
+CREATE DATABASE /*!32312 IF NOT EXISTS*/`tasksdev` /*!40100 DEFAULT CHARACTER SET utf8 */;
+
+USE `tasksdev`;
+
+/*Table structure for table `Tasks` */
+
+DROP TABLE IF EXISTS `Tasks`;
+
+CREATE TABLE `Tasks` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `subject` varchar(254) NOT NULL,
+  `body` text,
+  `status` varchar(128) DEFAULT NULL,
+  `priority` smallint(5) DEFAULT NULL,
+  `createdOn` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updatedOn` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `targetOn` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `repeatConditions` varchar(128) DEFAULT NULL,
+  `ownerId` int(11) unsigned NOT NULL,
+  `assigneeId` int(11) unsigned NOT NULL,
+  `assignedGroups` varchar(128) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_Tasks_Owner` (`ownerId`),
+  KEY `FK_Tasks_Assignee` (`assigneeId`),
+  CONSTRAINT `FK_Tasks_Assignee` FOREIGN KEY (`assigneeId`) REFERENCES `Users` (`id`) ON UPDATE CASCADE,
+  CONSTRAINT `FK_Tasks_Owner` FOREIGN KEY (`ownerId`) REFERENCES `Users` (`id`) ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 CHECKSUM=1 DELAY_KEY_WRITE=1 ROW_FORMAT=DYNAMIC;
+
+/*Data for the table `Tasks` */
+
+LOCK TABLES `Tasks` WRITE;
+
+insert  into `Tasks`(`id`,`subject`,`body`,`status`,`priority`,`createdOn`,`updatedOn`,`targetOn`,`repeatConditions`,`ownerId`,`assigneeId`,`assignedGroups`) values (1,'dfgdfgdfg','','',NULL,'2011-04-26 02:19:45','0000-00-00 00:00:00','2011-04-20 00:00:00','',1,1,'');
+
+UNLOCK TABLES;
+
+/*Table structure for table `Users` */
+
+DROP TABLE IF EXISTS `Users`;
+
+CREATE TABLE `Users` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `username` varchar(128) NOT NULL,
+  `password` varchar(128) NOT NULL,
+  `email` varchar(254) DEFAULT NULL,
+  `role` varchar(32) NOT NULL DEFAULT 'user',
+  `isActive` tinyint(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 CHECKSUM=1 DELAY_KEY_WRITE=1 ROW_FORMAT=DYNAMIC;
+
+/*Data for the table `Users` */
+
+LOCK TABLES `Users` WRITE;
+
+insert  into `Users`(`id`,`username`,`password`,`email`,`role`,`isActive`) values (1,'admin','21232f297a57a5a743894a0e4a801fc3','admin@example.com','administrator',1);
+
+UNLOCK TABLES;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
