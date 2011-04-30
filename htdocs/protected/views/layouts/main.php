@@ -18,6 +18,7 @@
         <link rel="stylesheet" href="/css/jquery-ui.css" type="text/css" media="screen" />
         <script src="/js/jquery-1.5.2.min.js" type="text/javascript"></script>
         <script src="/js/jquery-ui.min.js" type="text/javascript"></script>
+        <script src="/js/main.js" type="text/javascript"></script>
 </head>
 
 <body>
