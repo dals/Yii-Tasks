@@ -49,6 +49,14 @@
 	<?php echo CHtml::encode($data->assignedGroups); ?>
 	<br />
 
+	<b><?php echo CHtml::encode($data->getAttributeLabel('contextId')); ?>:</b>
+	<?php echo CHtml::encode($data->contextId); ?>
+	<br />
+
+	<b><?php echo CHtml::encode($data->getAttributeLabel('blockedBy')); ?>:</b>
+	<?php echo CHtml::encode($data->blockedBy); ?>
+	<br />
+
 	*/ ?>
 
 </div>

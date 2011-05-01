@@ -30,5 +30,7 @@ $this->menu=array(
 		'ownerId',
 		'assigneeId',
 		'assignedGroups',
+		'contextId',
+		'blockedBy',
 	),
 )); ?>

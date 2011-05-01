@@ -23,7 +23,7 @@
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'status'); ?>
-		<?php echo $form->textField($model,'status',array('size'=>60,'maxlength'=>128)); ?>
+		<?php echo $form->dropDownList($model,'status',  EConfigLoader::load('statuses')); ?>
 		<?php echo $form->error($model,'status'); ?>
 	</div>
 
@@ -34,20 +34,8 @@
 	</div>
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'createdOn'); ?>
-		<?php echo $form->textField($model,'createdOn', array('value'=>date('Y-m-d H:i:s'), 'readonly'=>'readonly')); ?>
-		<?php echo $form->error($model,'createdOn'); ?>
-	</div>
-        
-	<div class="row">
-		<?php echo $form->labelEx($model,'updatedOn'); ?>
-		<?php echo $form->textField($model,'updatedOn', array('readonly'=>'readonly')); ?>
-		<?php echo $form->error($model,'updatedOn'); ?>
-	</div>
-
-	<div class="row">
 		<?php echo $form->labelEx($model,'targetOn'); ?>
-		<?php echo $form->textField($model,'targetOn', array('id'=>'date-target-on')); ?>
+		<?php echo $form->textField($model,'targetOn', array('class'=>'datetime-input')); ?>
 		<?php echo $form->error($model,'targetOn'); ?>
 	</div>
 
@@ -56,24 +44,23 @@
 		<?php echo $form->textField($model,'repeatConditions',array('size'=>60,'maxlength'=>128)); ?>
 		<?php echo $form->error($model,'repeatConditions'); ?>
 	</div>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'ownerId'); ?>
-		<?php 
-                    if($model->getIsNewRecord()) {
-                        echo $form->hiddenField($model,'ownerId',array('value'=>Yii::app()->user->id));
-                        echo CHtml::textField('', Yii::app()->user->name, array('readonly'=>'readonly')); 
-                    } else {
-                        echo $form->hiddenField($model,'ownerId');
-                        echo CHtml::textField('', $model->owner->username, array('readonly'=>'readonly')); 
-                    }
-                ?>
-		<?php echo $form->error($model,'ownerId'); ?>
-	</div>
-
-	<div class="row">
+        <?php
+            if(!$model->isNewRecord):
+        ?>
+            <div class="row">
+                    <?php echo $form->labelEx($model,'ownerId'); ?>
+                    <?php echo $form->textField($model,'ownerId',array('size'=>11,'maxlength'=>11)); ?>
+                    <?php echo $form->error($model,'ownerId'); ?>
+            </div>
+        <?php 
+            else:
+                echo $form->hiddenField($model,'ownerId');
+            endif;
+        ?>
+	
+        <div class="row">
 		<?php echo $form->labelEx($model,'assigneeId'); ?>
-		<?php echo $form->dropDownList($model,'assigneeId', CHtml::listData(Users::model()->findAll(), 'id', 'username')); ?>
+		<?php echo $form->dropDownList($model,'assigneeId',  CHtml::listData(Users::model()->findAll(), 'id', 'username')); ?>
 		<?php echo $form->error($model,'assigneeId'); ?>
 	</div>
 
@@ -81,6 +68,24 @@
 		<?php echo $form->labelEx($model,'assignedGroups'); ?>
 		<?php echo $form->textField($model,'assignedGroups',array('size'=>60,'maxlength'=>128)); ?>
 		<?php echo $form->error($model,'assignedGroups'); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->labelEx($model,'contextId'); ?>
+		<?php echo $form->dropDownList($model,'contextId',CHtml::listData(Contexts::model()->findAll(), 'id', 'name')); ?>
+		<?php echo $form->error($model,'contextId'); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->labelEx($model,'blockedBy'); ?>
+		<?php 
+                    if(!$model->isNewRecord) {
+                        echo $form->dropDownList($model,'blockedBy', CHtml::listData(Tasks::model()->findAll('id <> :id', array(':id'=>$model->id)), 'id', 'subject')); 
+                    } else {
+                        echo $form->dropDownList($model,'blockedBy', CHtml::listData(Tasks::model()->findAll(), 'id', 'subject')); 
+                    }
+                ?>
+		<?php echo $form->error($model,'blockedBy'); ?>
 	</div>
 
 	<div class="row buttons">

@@ -13,9 +13,18 @@ class EConfigLoader {
         if(is_readable($path)) {
             $data = include $path;
         }
-        if(!empty ($data) && array_key_exists($section, $data) && strlen(trim($section)) > 0) {
-            $data = $data[trim($section)];
+        if(empty ($data)) {
+            return $data;
         }
+        
+        if(strlen(trim($section)) == 0) {// If cfg won't store items in special section - return raw 'data' section content!
+            return $data['data'];
+        }
+        
+        if(array_key_exists($section, $data['data']) && strlen(trim($section)) > 0) {
+            $data = $data['data'][trim($section)];
+        }
+
         return $data;
     }
     

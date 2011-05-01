@@ -65,6 +65,16 @@
 		<?php echo $form->textField($model,'assignedGroups',array('size'=>60,'maxlength'=>128)); ?>
 	</div>
 
+	<div class="row">
+		<?php echo $form->label($model,'contextId'); ?>
+		<?php echo $form->textField($model,'contextId',array('size'=>11,'maxlength'=>11)); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->label($model,'blockedBy'); ?>
+		<?php echo $form->textField($model,'blockedBy',array('size'=>11,'maxlength'=>11)); ?>
+	</div>
+
 	<div class="row buttons">
 		<?php echo CHtml::submitButton('Search'); ?>
 	</div>

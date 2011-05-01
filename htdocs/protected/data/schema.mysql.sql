@@ -15,6 +15,27 @@ CREATE DATABASE /*!32312 IF NOT EXISTS*/`tasksdev` /*!40100 DEFAULT CHARACTER SE
 
 USE `tasksdev`;
 
+/*Table structure for table `Contexts` */
+
+DROP TABLE IF EXISTS `Contexts`;
+
+CREATE TABLE `Contexts` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(64) NOT NULL,
+  `description` text,
+  `createdBy` int(11) unsigned NOT NULL,
+  `isShared` tinyint(1) DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 CHECKSUM=1 DELAY_KEY_WRITE=1 ROW_FORMAT=DYNAMIC;
+
+/*Data for the table `Contexts` */
+
+LOCK TABLES `Contexts` WRITE;
+
+insert  into `Contexts`(`id`,`name`,`description`,`createdBy`,`isShared`) values (1,'asddddddddas','',1,0);
+
+UNLOCK TABLES;
+
 /*Table structure for table `Tasks` */
 
 DROP TABLE IF EXISTS `Tasks`;
@@ -32,10 +53,14 @@ CREATE TABLE `Tasks` (
   `ownerId` int(11) unsigned NOT NULL,
   `assigneeId` int(11) unsigned NOT NULL,
   `assignedGroups` varchar(128) DEFAULT NULL,
+  `contextId` int(11) unsigned DEFAULT NULL,
+  `blockedBy` int(11) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_Tasks_Owner` (`ownerId`),
   KEY `FK_Tasks_Assignee` (`assigneeId`),
+  KEY `FK_Tasks_Context` (`contextId`),
   CONSTRAINT `FK_Tasks_Assignee` FOREIGN KEY (`assigneeId`) REFERENCES `Users` (`id`) ON UPDATE CASCADE,
+  CONSTRAINT `FK_Tasks_Context` FOREIGN KEY (`contextId`) REFERENCES `Contexts` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `FK_Tasks_Owner` FOREIGN KEY (`ownerId`) REFERENCES `Users` (`id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 CHECKSUM=1 DELAY_KEY_WRITE=1 ROW_FORMAT=DYNAMIC;
 
@@ -43,7 +68,7 @@ CREATE TABLE `Tasks` (
 
 LOCK TABLES `Tasks` WRITE;
 
-insert  into `Tasks`(`id`,`subject`,`body`,`status`,`priority`,`createdOn`,`updatedOn`,`targetOn`,`repeatConditions`,`ownerId`,`assigneeId`,`assignedGroups`) values (1,'dfgdfgdfg','','',NULL,'2011-04-26 02:19:45','0000-00-00 00:00:00','2011-04-20 00:00:00','',1,1,'');
+insert  into `Tasks`(`id`,`subject`,`body`,`status`,`priority`,`createdOn`,`updatedOn`,`targetOn`,`repeatConditions`,`ownerId`,`assigneeId`,`assignedGroups`,`contextId`,`blockedBy`) values (1,'dfgdfgdfg','','',NULL,'2011-04-26 02:19:45','0000-00-00 00:00:00','2011-04-20 00:00:00','',1,1,'',NULL,NULL);
 
 UNLOCK TABLES;
 
@@ -59,7 +84,7 @@ CREATE TABLE `Users` (
   `role` varchar(32) NOT NULL DEFAULT 'user',
   `isActive` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 CHECKSUM=1 DELAY_KEY_WRITE=1 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 CHECKSUM=1 DELAY_KEY_WRITE=1 ROW_FORMAT=DYNAMIC;
 
 /*Data for the table `Users` */
 
