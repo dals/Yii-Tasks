@@ -1,7 +1,7 @@
 <?php
 
 return array(
-    'title'=>'Navigation',
+    'title'=>'Navigation-Public',
     'data' => array (
         'items'=>array(
                 array('label'=>'Dashboard', 'url'=>array('/dashboard/index')),

@@ -41,7 +41,35 @@
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'repeatConditions'); ?>
-		<?php echo $form->textField($model,'repeatConditions',array('size'=>60,'maxlength'=>128)); ?>
+            
+                <?php
+                
+                 echo CHtml::checkBox('repeatcond-switcher', false);
+                    $monthes = array('-1'=>'---',0=>'Month');
+                    for($i=1, $c=12; $i<=$c; $i++) {
+                        $monthes[$i] = date( 'F', mktime(0, 0, 0, $i) );
+                    }
+                    echo ' Every month: '.CHtml::dropDownList('repeat-month', '', $monthes);
+                    
+                    $weekdays = array('-1'=>'---',0=>'Day');
+                    $date = new DateTime('2010-03-29');
+                    for($i=1; $i<=7; $i++){
+                        $weekdays[$i] = $date->format('l');
+                        $date->modify('+1 day');
+                    }
+                    echo ' Every day of week:'.CHtml::dropDownList('repeat-weekday', '', $weekdays);
+                    
+                    $monthdays = array('-1'=>'---',0=>'Day');
+                    for($i=1, $c=31;$i<=$c;$i++) {
+                        $monthdays[$i] = $i;
+                    }
+                    echo ' Every day of month:'.CHtml::dropDownList('repeat-monthday', '', $monthdays);
+                    
+                    echo '<br/> Every hour: '.CHtml::textField('repeat-hour', '-1');
+                    echo ' Every minute: '.CHtml::textField('repeat-minute', '-1');
+                ?>
+                
+		<?php echo $form->textField($model,'repeatConditions',array('size'=>60,'maxlength'=>128, 'readonly'=>'readonly')); ?>
 		<?php echo $form->error($model,'repeatConditions'); ?>
 	</div>
         <?php
@@ -95,3 +123,38 @@
 <?php $this->endWidget(); ?>
 
 </div><!-- form -->
+<script type="text/javascript">
+    $(function(){
+        var $allRepeatCondFields = $('*[id^="repeat-"]');
+        function rehashRepeatConditions() {
+            var encodedConditions = $allRepeatCondFields.map(function(index){
+                var condType = $(this).attr('id').split('-')[1]+':';
+                return condType+$(this).val();
+            }).get().join('|');
+            $('#Tasks_repeatConditions').val(encodedConditions);
+        }
+        
+        var $iTargetDate = $('#Tasks_targetOn');
+        $.data($iTargetDate.get(0), 'initial', {date:$iTargetDate.val()});
+        function repeatConditionsStateChange(isActive) {
+            if(isActive) {
+                $iTargetDate.attr('readonly', 'readonly').val('0000-00-00');
+                $allRepeatCondFields.attr('disabled', null);
+                rehashRepeatConditions();
+            } else {
+                $iTargetDate.attr('readonly', null).val($.data($iTargetDate.get(0), 'initial').date);
+                $allRepeatCondFields.attr('disabled', 'disabled');
+                $('#Tasks_repeatConditions').val('');
+            }            
+        }
+        
+        $allRepeatCondFields.live('change focusin focusout', function(){
+            rehashRepeatConditions();
+        });
+        
+        $('#repeatcond-switcher').live('change',function(){
+            repeatConditionsStateChange($(this).is(':checked'));
+        });
+        $('#repeatcond-switcher').trigger('change');
+    })
+</script>
