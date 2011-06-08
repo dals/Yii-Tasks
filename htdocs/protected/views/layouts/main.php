@@ -19,6 +19,15 @@
         <script src="/js/jquery-1.5.2.min.js" type="text/javascript"></script>
         <script src="/js/jquery-ui.min.js" type="text/javascript"></script>
         <script src="/js/main.js" type="text/javascript"></script>
+        
+        <script type="text/javascript" src="/js/markitup/jquery.markitup.js"></script>
+        <!-- markItUp! toolbar settings -->
+        <script type="text/javascript" src="/js/markitup/sets/markdown/set.js"></script>
+        <!-- markItUp! skin -->
+        <link rel="stylesheet" type="text/css" href="/js/markitup/skins/markitup/style.css" />
+        <!--  markItUp! toolbar skin -->
+        <link rel="stylesheet" type="text/css" href="/js/markitup/sets/markdown/style.css" />
+
 </head>
 
 <body>

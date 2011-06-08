@@ -30,11 +30,40 @@ CREATE TABLE `Contexts` (
 
 /*Data for the table `Contexts` */
 
-LOCK TABLES `Contexts` WRITE;
-
 insert  into `Contexts`(`id`,`name`,`description`,`createdBy`,`isShared`) values (1,'asddddddddas','',1,0);
 
-UNLOCK TABLES;
+/*Table structure for table `Entries` */
+
+DROP TABLE IF EXISTS `Entries`;
+
+CREATE TABLE `Entries` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `subject` varchar(254) DEFAULT NULL,
+  `body` text NOT NULL,
+  `createdOn` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `createdByUser` int(11) unsigned DEFAULT NULL,
+  `createdForUser` int(11) unsigned DEFAULT NULL,
+  `isGroupEntry` tinyint(1) DEFAULT '0',
+  `createdForGroup` int(11) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 CHECKSUM=1 DELAY_KEY_WRITE=1 ROW_FORMAT=DYNAMIC;
+
+/*Data for the table `Entries` */
+
+/*Table structure for table `Groups` */
+
+DROP TABLE IF EXISTS `Groups`;
+
+CREATE TABLE `Groups` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(64) NOT NULL,
+  `description` varchar(254) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 CHECKSUM=1 DELAY_KEY_WRITE=1 ROW_FORMAT=DYNAMIC;
+
+/*Data for the table `Groups` */
+
+insert  into `Groups`(`id`,`name`,`description`) values (1,'support',NULL),(2,'managers',NULL);
 
 /*Table structure for table `Tasks` */
 
@@ -53,6 +82,7 @@ CREATE TABLE `Tasks` (
   `ownerId` int(11) unsigned NOT NULL,
   `assigneeId` int(11) unsigned NOT NULL,
   `assignedGroups` varchar(128) DEFAULT NULL,
+  `assignedUsers` varchar(254) DEFAULT NULL,
   `contextId` int(11) unsigned DEFAULT NULL,
   `blockedBy` int(11) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -66,11 +96,7 @@ CREATE TABLE `Tasks` (
 
 /*Data for the table `Tasks` */
 
-LOCK TABLES `Tasks` WRITE;
-
-insert  into `Tasks`(`id`,`subject`,`body`,`status`,`priority`,`createdOn`,`updatedOn`,`targetOn`,`repeatConditions`,`ownerId`,`assigneeId`,`assignedGroups`,`contextId`,`blockedBy`) values (1,'dfgdfgdfg','','',NULL,'2011-04-26 02:19:45','0000-00-00 00:00:00','2011-04-20 00:00:00','',1,1,'',NULL,NULL);
-
-UNLOCK TABLES;
+insert  into `Tasks`(`id`,`subject`,`body`,`status`,`priority`,`createdOn`,`updatedOn`,`targetOn`,`repeatConditions`,`ownerId`,`assigneeId`,`assignedGroups`,`assignedUsers`,`contextId`,`blockedBy`) values (1,'dfgdfgdfg','','',NULL,'2011-04-26 02:19:45','0000-00-00 00:00:00','2011-04-20 00:00:00','',1,1,'',NULL,NULL,NULL);
 
 /*Table structure for table `Users` */
 
@@ -88,11 +114,7 @@ CREATE TABLE `Users` (
 
 /*Data for the table `Users` */
 
-LOCK TABLES `Users` WRITE;
-
-insert  into `Users`(`id`,`username`,`password`,`email`,`role`,`isActive`) values (1,'admin','21232f297a57a5a743894a0e4a801fc3','admin@example.com','administrator',1);
-
-UNLOCK TABLES;
+insert  into `Users`(`id`,`username`,`password`,`email`,`role`,`isActive`) values (1,'admin','623816f7671d27bc484b523dca5b4fcb','admin@example.com','administrator',1);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
