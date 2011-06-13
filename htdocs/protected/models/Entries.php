@@ -102,4 +102,9 @@ class Entries extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+        
+        public function beforeValidate() {
+            $this->createdOn = date('Y-m-d H:i');
+            return parent::beforeValidate();
+        }
 }
